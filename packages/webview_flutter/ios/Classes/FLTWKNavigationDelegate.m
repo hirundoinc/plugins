@@ -23,6 +23,13 @@
     decisionHandler(WKNavigationActionPolicyAllow);
     return;
   }
+
+  if (!navigationAction.targetFrame || !navigationAction.targetFrame.isMainFrame) {
+    [webView loadRequest:[NSURLRequest requestWithURL:navigationAction.request.URL]];
+    decisionHandler(WKNavigationActionPolicyCancel);
+    return;
+  }
+
   NSDictionary* arguments = @{
     @"url" : navigationAction.request.URL.absoluteString,
     @"isForMainFrame" : @(navigationAction.targetFrame.isMainFrame)
