@@ -30,6 +30,12 @@
     return;
   }
 
+  if ([navigationAction.request.URL.absoluteString hasSuffix:@"blank.html"] ||
+    [navigationAction.request.URL.absoluteString hasSuffix:@"about:blank"]) {
+    decisionHandler(WKNavigationActionPolicyCancel);
+    return;
+  }
+
   NSDictionary* arguments = @{
     @"url" : navigationAction.request.URL.absoluteString,
     @"isForMainFrame" : @(navigationAction.targetFrame.isMainFrame)
